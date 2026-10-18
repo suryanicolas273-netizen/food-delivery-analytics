@@ -1,176 +1,209 @@
 # Food Delivery Analytics — End-to-End Data Engineering Project
 
+An end-to-end data engineering and business intelligence project that transforms food delivery operational data into analytical datasets and interactive Power BI reports.
+
+The project demonstrates **MySQL, Fivetran, Snowflake SQL, dimensional modeling, data quality validation, and Power BI**.
+
+## Dashboard Preview
+
+![Food Delivery Analytics dashboard](screenshots/food_delivery_overview.png)
+
+**Power BI report:** [Open the Power BI report file](powerbi/Food_Delivery_Analytics_2026.pbix.pbix)
+
+Download the report and open it using Microsoft Power BI Desktop.
+
 ## Project Overview
 
-This project demonstrates an end-to-end data engineering and analytics pipeline for a food delivery business. It integrates data ingestion, cloud data warehousing, SQL-based transformation, dimensional modeling, and business intelligence reporting.
+Food delivery businesses generate operational data about orders, restaurants, menu items, customers, delivery partners, and customer reviews. This project organizes that data into a reporting model to help analyze revenue, order trends, cancellations, customer satisfaction, and delivery efficiency.
 
-The goal is to analyze order performance, revenue, customer behavior, restaurant performance, customer reviews, and delivery operations.
-
-## Architecture
+### Architecture
 
 **MySQL → AWS Aurora / Amazon RDS → Fivetran → Snowflake → Power BI**
 
-1. **MySQL:** Source database containing food delivery orders, restaurant menus, and customer reviews.
-2. **AWS Aurora / Amazon RDS:** Intended managed MySQL-compatible database hosting layer. Confirm the actual deployment status before describing it as an active environment.
-3. **Fivetran:** Data ingestion and replication into Snowflake.
-4. **Snowflake:** Data staging, SQL transformations, dimensional modeling, and analytical tables.
-5. **Power BI:** Interactive dashboards for business analysis and reporting.
+1. **MySQL:** Stores the operational food delivery source data.
+2. **AWS Aurora / Amazon RDS:** Represents the intended managed MySQL-compatible hosting layer. Current deployment status must be verified separately.
+3. **Fivetran:** Replicates source data into Snowflake using binary-log-based change data capture (CDC).
+4. **Snowflake:** Stores replicated data and supports staging, SQL transformations, data validation, and dimensional modeling.
+5. **Power BI:** Presents business KPIs, trends, and operational insights through interactive reports.
 
-## Technologies Used
+See the [project architecture](architecture.md) for more details.
 
-- **Database:** MySQL
-- **Cloud Database:** AWS Aurora / Amazon RDS (intended architecture)
-- **Data Ingestion:** Fivetran
-- **Cloud Data Warehouse:** Snowflake
-- **Transformation:** SQL
-- **Business Intelligence:** Microsoft Power BI
-- **Version Control:** Git and GitHub
+## Technology Stack
 
-## Data Sources
-
-The project uses three primary source tables:
-
-| Table | Description |
+| Technology | Purpose |
 |---|---|
-| `food_orders` | Food order and order-line details |
-| `restaurant_menu` | Restaurant and menu item information |
-| `customer_reviews` | Customer ratings and review information |
+| MySQL | Operational source database |
+| AWS Aurora / Amazon RDS | Intended managed database hosting layer |
+| Fivetran | Data ingestion and change data capture |
+| Snowflake | Cloud data warehouse and SQL transformations |
+| Power BI | Interactive business intelligence and reporting |
+| Git and GitHub | Version control and project documentation |
 
-## Data Engineering Workflow
+## Dataset and Data Model
 
-1. Ingest source data from MySQL through Fivetran.
-2. Replicate source tables into Snowflake.
-3. Build staging objects for cleaning and preparation.
-4. Transform data into core dimensions and fact tables.
-5. Validate record counts, relationships, and data quality.
-6. Connect the analytical model to Power BI.
-7. Develop dashboards to monitor business performance.
+The source database is `food_ops`, with three principal source tables:
 
-## Snowflake Data Modeling
+- `food_orders` — food order and order-line information.
+- `restaurant_menu` — restaurant and menu item attributes.
+- `customer_reviews` — customer ratings and review information.
 
-The analytical model uses a star-schema approach with six dimension tables and three fact tables.
+The analytical model contains **six dimension tables and three fact tables**.
 
-### Dimension Tables
+### Dimension tables
 
-- `DIM_CUSTOMER`
-- `DIM_RESTAURANT`
-- `DIM_ITEM`
-- `DIM_DELIVERY_PARTNER`
-- `DIM_LOCATION`
-- `DIM_DATE`
+| Table | Purpose |
+|---|---|
+| `DIM_CUSTOMER` | Customer attributes |
+| `DIM_RESTAURANT` | Restaurant and cuisine attributes |
+| `DIM_ITEM` | Menu item and category attributes |
+| `DIM_DELIVERY_PARTNER` | Delivery partner attributes |
+| `DIM_LOCATION` | Location attributes |
+| `DIM_DATE` | Calendar-based analysis |
 
-### Fact Tables
+### Fact tables
 
-- `FACT_ORDER_LINES` — one row per order line.
-- `FACT_ORDERS` — one row per order.
-- `FACT_REVIEWS` — one row per customer review.
+| Table | Grain |
+|---|---|
+| `FACT_ORDER_LINES` | One row per order line |
+| `FACT_ORDERS` | One row per order |
+| `FACT_REVIEWS` | One row per customer review |
 
-The dimensions provide descriptive attributes, while the fact tables store measurable business events and metrics.
+Defining the grain of each fact table helps prevent double-counting when calculating revenue, orders, and other measures.
 
-## Power BI Dashboard
+Read the [star schema documentation](star_schema.md) for more details.
 
-The Power BI report analyzes:
+## Key Project Metrics
 
-- Total Revenue
-- Total Orders
-- Average Order Value
-- Total Customers
-- Cancelled Orders and Cancellation Rate
-- Monthly Order Trends
-- Average Delivery Time
-- Restaurant Performance
-- Customer Ratings and Reviews
+The following figures were verified against the project report during development. Revenue and other measures depend on their business definitions and report filters.
 
-### Verified Project Metrics
-
-The current report contains the following recorded dataset figures:
-
-| Metric | Value |
+| Metric | Verified value |
 |---|---:|
-| Total Orders | 6,000 |
-| Order Lines | 14,763 |
-| Menu Items | 5,180 |
-| Customer Reviews | 2,483 |
-| Delivered Revenue | ₹2,905,823 |
-| Cancelled Orders | 458 |
-| Average Delivery Time | 56.88 minutes |
+| Total orders | 6,000 |
+| Total order lines | 14,763 |
+| Menu items | 5,180 |
+| Customer reviews | 2,483 |
+| Delivered revenue | ₹2,905,823 |
+| Cancelled orders | 458 |
+| Average delivery time | 56.88 minutes (approximately 57 minutes) |
 
-These figures describe the current project dataset and may change if the underlying data or model is updated.
+**Revenue definition:** Delivered revenue excludes cancelled and in-progress orders in the verified report.
+
+## Business Questions Addressed
+
+The Power BI report supports analysis of:
+
+- How does delivered revenue change over time?
+- How many orders are placed each month?
+- What proportion of orders are cancelled?
+- Which restaurants perform best by order volume?
+- How do customer ratings vary?
+- What is the average delivery time by month?
+- How can order status and operational performance be monitored?
+
+See the [Power BI dashboard documentation](powerbi_dashboard.md).
 
 ## Repository Structure
 
 ```text
 food-delivery-analytics/
-│
+├── README.md
+├── architecture.md
+├── star_schema.md
+├── aws_aurora_setup.md
+├── fivetran_setup.md
+├── powerbi_dashboard.md
 ├── documentation/
-│   ├── architecture.md
-│   ├── star_schema.md
-│   ├── powerbi_dashboard.md
-│   ├── fivetran_setup.md
-│   └── aws_aurora_setup.md
-│
+│   └── architecture.md
 ├── mysql/
 │   ├── README.md
-│   └── food_ops_mysql.sql
-│
+│   ├── 01_ddl.sql
+│   ├── 02_insert_food_orders.sql
+│   ├── 03_insert_customer_reviews.sql
+│   └── 04_insert_restaurant_menu.sql
 ├── snowflake/
 │   ├── README.md
-│   ├── 01_data_validation.sql
-│   ├── 02_staging_views.sql
-│   ├── 03_core_dimensions.sql
-│   └── 04_core_fact_tables.sql
-│
+│   ├── 01_data_validation.sql.txt
+│   ├── 02_staging_views.sql.txt
+│   ├── 03_core_dimensions.sql.txt
+│   └── 04_core_fact_tables.sql.txt
 ├── powerbi/
 │   ├── README.md
-│   └── Food_Delivery_Analytics_2026.pbix
-│
+│   └── Food_Delivery_Analytics_2026.pbix.pbix
 └── screenshots/
+    ├── .gitkeep
     └── food_delivery_overview.png
 ```
 
-## Project Documentation and Files
+## Project Files
 
-- [Data Architecture](documentation/architecture.md)
-- [Star Schema and Fact Table Grain](documentation/star_schema.md)
-- [Power BI Dashboard Documentation](documentation/powerbi_dashboard.md)
-- [Fivetran Ingestion Setup](documentation/fivetran_setup.md)
-- [AWS Aurora / RDS Source Database Documentation](documentation/aws_aurora_setup.md)
-- [MySQL Source Dataset and SQL Dump](mysql/)
-- [Snowflake SQL Scripts](snowflake/)
-- [Power BI Report](powerbi/)
-- [Dashboard Screenshot](screenshots/food_delivery_overview.png)
+### MySQL source database
 
-## Data Quality and Validation
+- [MySQL README and instructions](mysql/README.md)
+- [01 — Create source tables](mysql/01_ddl.sql)
+- [02 — Insert food orders](mysql/02_insert_food_orders.sql)
+- [03 — Insert customer reviews](mysql/03_insert_customer_reviews.sql)
+- [04 — Insert restaurant menu data](mysql/04_insert_restaurant_menu.sql)
 
-The project includes SQL scripts and validation practices for:
+### Snowflake data warehouse
 
-- Source and target record-count comparisons
-- Duplicate record checks
-- Null and missing-value checks
-- Fact-table grain validation
-- Dimension and fact relationship checks
-- Order status and revenue consistency
+- [Snowflake README and execution notes](snowflake/README.md)
+- [01 — Data validation](snowflake/01_data_validation.sql.txt)
+- [02 — Staging views](snowflake/02_staging_views.sql.txt)
+- [03 — Core dimensions](snowflake/03_core_dimensions.sql.txt)
+- [04 — Core fact tables](snowflake/04_core_fact_tables.sql.txt)
+
+The Snowflake scripts currently use `.sql.txt` extensions. Review and rename them to `.sql` before presenting them as directly executable SQL files.
+
+### Ingestion and architecture documentation
+
+- [End-to-end architecture](architecture.md)
+- [Architecture notes in the documentation folder](documentation/architecture.md)
+- [Star schema and fact-table grain](star_schema.md)
+- [AWS Aurora / RDS setup notes](aws_aurora_setup.md)
+- [Fivetran ingestion and CDC notes](fivetran_setup.md)
+
+### Power BI reporting
+
+- [Power BI report documentation](powerbi_dashboard.md)
+- [Power BI folder README](powerbi/README.md)
+- [Download or view the PBIX file](powerbi/Food_Delivery_Analytics_2026.pbix.pbix)
+- [Dashboard screenshot](screenshots/food_delivery_overview.png)
+
+## Data Quality and Engineering Concepts
+
+The project covers or documents the following engineering practices:
+
+- Source-to-warehouse data validation.
+- Null and duplicate identifier checks.
+- Fivetran CDC metadata and deleted-record handling.
+- Staging views and SQL transformations.
+- Fact and dimension table design.
+- Fact-table grain and double-counting prevention.
+- Date-based analytical reporting.
+- KPI validation against the Power BI report.
+
+The SQL files should be checked against the verified Snowflake implementation before execution.
+
+## How to Explore the Project
+
+1. Review this README and the architecture documentation.
+2. Inspect the MySQL DDL and source data scripts.
+3. Read the Fivetran setup notes to understand ingestion and CDC.
+4. Review the Snowflake validation, staging, dimension, and fact scripts.
+5. Read the star schema documentation.
+6. Open the Power BI report in Power BI Desktop and explore the dashboard.
+
+**Important:** Required database connections, permissions, and source data must be configured separately. The documented architecture does not by itself prove that a cloud resource is currently running.
 
 ## Security Notes
 
-- Do not commit database passwords, private keys, connection strings, or AWS credentials.
-- Do not publish live database endpoints or sensitive connection details.
-- Review SQL scripts before executing them in any production or shared environment.
-
-## Future Improvements
-
-- Automate scheduled ingestion and transformations.
-- Add monitoring and failure notifications.
-- Expand data quality checks and reconciliation reporting.
-- Optimize Snowflake warehouse usage and query performance.
-- Add incremental processing and historical trend analysis.
+- Never commit database passwords, private keys, access tokens, or sensitive connection strings.
+- Use secure credential storage and least-privilege access.
+- Test database scripts in a development environment before executing them against an existing database.
+- Do not publish sensitive customer information.
 
 ## Author
 
-**Surya Nicolas**
+**Data Engineering and Business Intelligence Portfolio Project**
 
-GitHub: [suryanicolas273-netizen](https://github.com/suryanicolas273-netizen)
-
----
-
-*This project is intended as a practical portfolio demonstration of data engineering, cloud data warehousing, dimensional modeling, and business intelligence.*
+This project demonstrates practical learning across data ingestion, warehouse modeling, SQL transformations, data validation, and business reporting.
