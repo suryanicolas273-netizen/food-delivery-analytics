@@ -8,7 +8,7 @@ The project demonstrates **MySQL, Fivetran, Snowflake SQL, dimensional modeling,
 
 ![Food Delivery Analytics dashboard](screenshots/food_delivery_overview.png)
 
-**Power BI report:** [Open the Power BI report file](powerbi/Food_Delivery_Analytics_2026.pbix.pbix)
+**Power BI report:** [Open the Power BI report file](powerbi/Food_Delivery_Analytics_2026.pbix)
 
 Download the report and open it using Microsoft Power BI Desktop.
 
@@ -128,7 +128,7 @@ food-delivery-analytics/
 │   └── 04_core_fact_tables.sql.txt
 ├── powerbi/
 │   ├── README.md
-│   └── Food_Delivery_Analytics_2026.pbix.pbix
+│   └── Food_Delivery_Analytics_2026.pbix
 └── screenshots/
     ├── .gitkeep
     └── food_delivery_overview.png
@@ -166,7 +166,7 @@ The Snowflake scripts currently use `.sql.txt` extensions. Review and rename the
 
 - [Power BI report documentation](powerbi_dashboard.md)
 - [Power BI folder README](powerbi/README.md)
-- [Download or view the PBIX file](powerbi/Food_Delivery_Analytics_2026.pbix.pbix)
+- [Download or view the PBIX file](powerbi/Food_Delivery_Analytics_2026.pbix)
 - [Dashboard screenshot](screenshots/food_delivery_overview.png)
 
 ## Data Quality and Engineering Concepts
