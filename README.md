@@ -184,6 +184,13 @@ The project covers or documents the following engineering practices:
 
 The SQL files should be checked against the verified Snowflake implementation before execution.
 
+## Project Documentation
+
+- [Project Summary](PROJECT_SUMMARY.md) — architecture, data warehouse design, verified metrics, and key learning outcomes.
+- [Snowflake SQL Scripts](snowflake/) — data validation, staging views, dimensions, and fact tables.
+- [Power BI Report](powerbi/Food_Delivery_Analytics_2026.pbix) — interactive food delivery analytics dashboard.
+- [Dashboard Screenshot](screenshots/food_delivery_overview.png) — preview of the report.
+
 ## How to Explore the Project
 
 1. Review this README and the architecture documentation.
