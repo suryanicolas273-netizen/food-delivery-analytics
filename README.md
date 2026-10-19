@@ -122,10 +122,10 @@ food-delivery-analytics/
 │   └── 04_insert_restaurant_menu.sql
 ├── snowflake/
 │   ├── README.md
-│   ├── 01_data_validation.sql.txt
-│   ├── 02_staging_views.sql.txt
-│   ├── 03_core_dimensions.sql.txt
-│   └── 04_core_fact_tables.sql.txt
+│   ├── 01_data_validation.sql
+│   ├── 02_staging_views.sql
+│   ├── 03_core_dimensions.sql
+│   └── 04_core_fact_tables.sql
 ├── powerbi/
 │   ├── README.md
 │   └── Food_Delivery_Analytics_2026.pbix
