@@ -9,10 +9,6 @@
 CREATE DATABASE IF NOT EXISTS food_ops CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE food_ops;
 
-DROP TABLE IF EXISTS food_orders;
-DROP TABLE IF EXISTS customer_reviews;
-DROP TABLE IF EXISTS restaurant_menu;
-
 -- 1) One row per ORDER LINE. Order-level, customer, restaurant, partner and payment
 --    columns repeat on every line of the same order.
 CREATE TABLE food_orders (
